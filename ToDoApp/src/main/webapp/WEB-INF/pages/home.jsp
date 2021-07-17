@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page isELIgnored="false" %>
+<%@ page isELIgnored="false"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,7 +18,7 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 
-<title>ToDo App</title>
+<title><c:out value="${page }"></c:out></title>
 </head>
 <body>
 
@@ -30,8 +32,8 @@
 						class="list-group-item list-group-item-action active"
 						aria-current="true">Menu</button>
 					<a href='<c:url value='/add'></c:url>'
-						class="list-group-item list-group-item-action">Add TODO</a>
-					<a href='<c:url value='/home'></c:url>'
+						class="list-group-item list-group-item-action">Add TODO</a> <a
+						href='<c:url value='/home'></c:url>'
 						class="list-group-item list-group-item-action">View TODO</a>
 
 				</div>
@@ -40,9 +42,29 @@
 				<c:if test="${page=='home' }">
 					<h1 class="text-center">All TODOS</h1>
 				</c:if>
-				
+
 				<c:if test="${page=='add' }">
 					<h1 class="text-center">Add TODO</h1>
+					
+					<form:form action="saveTodo" method="post" modelAttribute="todo">
+						
+						<div class="form-group">
+							<form:input path="todoTitle" cssClass="form-control" placeholder="Enter Your Title...."/>
+							
+						</div>
+						
+						<div class="from-group">
+							<form:textarea path="todoContent" cssClass="form-control" placeholder="Enter your todo content..." cssStyle="height:300px"/>
+						</div>
+						
+						<div class="container text-center">
+							<button class="btn btn-outline-success"> Add Todo</button>
+						</div>
+					
+					</form:form>	
+	
+
+
 				</c:if>
 			</div>
 		</div>
