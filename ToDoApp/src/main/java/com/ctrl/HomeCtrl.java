@@ -1,5 +1,11 @@
 package com.ctrl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,13 +14,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.entities.Todo;
 
+
+
 @Controller
 public class HomeCtrl {
+	
+	@Autowired
+	ServletContext context;
 	
 	@RequestMapping("/home")
 	public String home(Model m) {
 		String str ="home";
 		m.addAttribute("page", str);
+		
+		List<Todo> list = (List<Todo>)context.getAttribute("list");
+		
+		m.addAttribute("todos",list);
+		
 		return "home";
 		
 	}
@@ -31,6 +47,11 @@ public class HomeCtrl {
 	@RequestMapping(value="/saveTodo",method=RequestMethod.POST)
 	public String saveTodo(@ModelAttribute("todo") Todo t, Model m) {
 		System.out.println(t);
+		t.setTodoDate(new Date());
+		//get the todo list from context
+		List<Todo> list = (List<Todo>)context.getAttribute("list");
+		list.add(t);
+		m.addAttribute("msg","successfully added...");
 		return "home";
 	}
 }
